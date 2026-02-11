@@ -1,15 +1,17 @@
 # Plan
 
-## Tool: 
-## Product: 
+## Tool:Kaboom.js 
+## Product: Handball Game!!
 
 ---
 
 ## Timeline
+Wed-Fri(finish plan.md)
+Over the break-Start coding the basics of the game get propertys done(14-22)
 
 #### MVP
 
-- [ ] Task (deadline: X)
+- [ ] Have a entity be able to return ball to the wall (deadline: Feb 23)
   - [ ] Subtask (deadline: X)
 
 #### Beyond MVP
