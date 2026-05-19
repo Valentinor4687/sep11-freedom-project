@@ -11,12 +11,7 @@
 
 ### X/X/XX:
 * Text
-
-
-<!--
-* Links you used today (websites, videos, etc)
-* Things you tried, progress you made, etc
-* Challenges, a-ha moments, etc
-* Questions you still have
-* What you're going to try next
--->
+Im learning how to rotate i want to rotate a plank that will affect the direction of the ball when playing
+rotate(a: number) => RotateComp
+Rotation (in degrees).
+this is the code i would have to ue to alter the direction i want to see if i can change it using a key 
