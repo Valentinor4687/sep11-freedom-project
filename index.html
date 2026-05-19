@@ -27,7 +27,7 @@ kaboom({
     background: [15, 15, 25],
 })
 
-// PLAYER
+// box
 let player = add([
     rect(20, 20),
     pos(120, 250),
@@ -35,7 +35,7 @@ let player = add([
     area(),
 ])
 
-// BALL
+// ball
 let ball = add([
     circle(18),
     pos(300, 250),
@@ -43,26 +43,26 @@ let ball = add([
     area(),
 ])
 
-// FASTER BALL SPEED
+// speed
 let ballSpeed = vec2(9, 7)
 
-// LESS FRICTION
+// friction/bounde
 let friction = 0.999999
 
-// ARM VALUES
+// arm/rect
 let armLength = 80
 let armAngle = 0
 let charging = false
 let swingSpeed = 0
 
-// HANDBALL WALL
+// front wall
 add([
     rect(40, height()),
     pos(width() - 40, 0),
     color(100, 100, 255),
 ])
 
-// FLOOR + CEILING
+// top wall
 add([
     rect(width(), 20),
     pos(0, 0),
@@ -73,7 +73,7 @@ add([
     pos(0, height() - 20),
 ])
 
-// ARM
+// arm
 let arm = add([
     rect(armLength, 10),
     pos(player.pos),
@@ -82,14 +82,14 @@ let arm = add([
     color(255, 200, 0),
 ])
 
-// HAND
+// hand/circle
 let hand = add([
     circle(15),
     pos(player.pos),
     color(255, 100, 100),
 ])
 
-// MOVEMENT
+// moving
 onKeyDown("w", () => {
     player.move(0, -300)
 })
@@ -106,7 +106,7 @@ onKeyDown("d", () => {
     player.move(300, 0)
 })
 
-// CHARGE ARM
+// charging back
 onKeyDown("space", () => {
 
     charging = true
@@ -116,33 +116,31 @@ onKeyDown("space", () => {
     }
 })
 
-// RELEASE SWING
+// swing
 onKeyRelease("space", () => {
 
     charging = false
 
     armAngle += swingSpeed * 2
 
-    // HIT BALL
+    // contact
     if (hand.pos.dist(ball.pos) < 50) {
 
         let dir = ball.pos.sub(player.pos).unit()
 
-        // HARDER HIT
+        // contact from swing
         ballSpeed = dir.scale(18 + swingSpeed / 2)
     }
 
     swingSpeed = 0
 })
 
-// UPDATE LOOP
 onUpdate(() => {
 
-    // KEEP PLAYER INSIDE SCREEN
     player.pos.x = clamp(player.pos.x, 20, width() - 100)
     player.pos.y = clamp(player.pos.y, 30, height() - 30)
 
-    // ARM RETRACT
+    // retract
     if (charging) {
         armLength = lerp(armLength, 35, 0.25)
     } else {
@@ -150,12 +148,10 @@ onUpdate(() => {
         armAngle = lerp(armAngle, 0, 0.1)
     }
 
-    // ARM POSITION
     arm.pos = player.pos
     arm.width = armLength
     arm.angle = armAngle
 
-    // HAND POSITION
     let handX =
         player.pos.x +
         Math.cos(deg2rad(armAngle)) * armLength
@@ -166,34 +162,34 @@ onUpdate(() => {
 
     hand.pos = vec2(handX, handY)
 
-    // MOVE BALL
+    // ball movement
     ball.move(ballSpeed.x, ballSpeed.y)
 
-    // LOW FRICTION
+
     ballSpeed = ballSpeed.scale(friction)
 
-    // KEEP SPEED HIGH
+
     if (ballSpeed.len() < 8) {
         ballSpeed = ballSpeed.unit().scale(8)
     }
 
-    // TOP/BOTTOM BOUNCE
+    // bounce up/down
     if (ball.pos.y < 35 || ball.pos.y > height() - 35) {
         ballSpeed.y *= -1
     }
 
-    // LEFT WALL BOUNCE
+    // back wall
     if (ball.pos.x < 35) {
         ballSpeed.x *= -1
     }
 
-    // FRONT HANDBALL WALL
+    // front wall
     if (ball.pos.x > width() - 55) {
         ballSpeed.x *= -1.08
     }
 })
 
-// UI TEXT
+// directions
 add([
     text("WASD MOVE  |  HOLD SPACE TO SWING"),
     pos(20, 20),
